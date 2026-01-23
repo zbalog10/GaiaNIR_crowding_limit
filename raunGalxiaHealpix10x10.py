@@ -27,10 +27,10 @@ def lb_to_theta_phi(l_deg: np.ndarray, b_deg: np.ndarray):
 def make_plane_grid_10x10(
     l_center: float = 30.0,
     b_center: float = 0.0,
-    l_width: float = 10.0,   # degrees
-    b_width: float = 5.0,    # degrees
-    n_l: int = 10,
-    n_b: int = 10,
+    l_width: float = 20.0,   # degrees
+    b_width: float = 10.0,    # degrees
+    n_l: int = 100,
+    n_b: int = 100,
 ):
     """
     Create a 10x10 grid of (l,b) points over a rectangular region.
@@ -59,6 +59,7 @@ def run_crowding_for_ipix_list(
     ipix_list: np.ndarray,
     outdir: str,
     k_max: float,
+    k_min: float,
     mag_key: str,
     fwhm_arcsec: float,
     k: float,
@@ -113,7 +114,7 @@ def run_crowding_for_ipix_list(
             p_blend=p_blend,
             beams_per_source=beams_per_source,
             dmag=0.1,
-            mag_min=0.0,
+            mag_min=k_min,
             mag_max=k_max,
         )
 
@@ -230,23 +231,23 @@ if __name__ == "__main__":
     # USER SETTINGS
     # -------------------------
     NSIDE = 128
-    OUTDIR = "/home/zbalog/galaxia_runs/healpix_n128_plane_10x10_Ks"
+    OUTDIR = "/home/zbalog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026"
 
     # Choose a 10x10 region in the Galactic plane:
     # Default: centered at l=30°, b=0°, spanning 10° in l and 5° in b.
     l_grid, b_grid, box = make_plane_grid_10x10(
         l_center=30.0,
         b_center=0.0,
-        l_width=10.0,
-        b_width=5.0,
-        n_l=10,
-        n_b=10,
+        l_width=20.0,
+        b_width=10.0,
+        n_l=100,
+        n_b=100,
     )
     print("Grid box (l_min, l_max, b_min, b_max) =", box)
 
     # Science settings
-    K_MAX = 22.0
-    MAG_KEY = "/dcmc_ks"     # your Galaxia EBF key
+    K_MAX = 30.0
+    MAG_KEY = "/dcmc_ks"     # Galaxia EBF key
     FWHM_ARCSEC = 0.2
     K = 1.0
     MODE = "poisson"
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     ipix = hp.ang2pix(NSIDE, theta, phi, nest=False)
     ipix_unique = np.unique(ipix)
 
-    print(f"10x10 grid points: {l_grid.size} -> unique healpix pixels: {ipix_unique.size}")
+    print(f"100x100 grid points: {l_grid.size} -> unique healpix pixels: {ipix_unique.size}")
 
     # -------------------------
     # RUN ANALYSIS
@@ -267,6 +268,7 @@ if __name__ == "__main__":
         ipix_list=ipix_unique,
         outdir=OUTDIR,
         k_max=K_MAX,
+        k_min=-100.0,
         mag_key=MAG_KEY,
         fwhm_arcsec=FWHM_ARCSEC,
         k=K,
@@ -276,7 +278,7 @@ if __name__ == "__main__":
     )
 
     # Save results table
-    out_csv = str(Path(OUTDIR) / "results_plane_10x10.csv")
+    out_csv = str(Path(OUTDIR) / "results_plane_100x100.csv")
     df.to_csv(out_csv, index=False)
     print(f"Wrote results: {out_csv}")
 

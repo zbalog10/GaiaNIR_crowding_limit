@@ -283,7 +283,7 @@ def run_full_analysis(
         l_deg=l_deg,
         b_deg=b_deg,
         survey_area_deg2=survey_area_deg2,
-        vmag_max=vmag_max,
+        k_max=k_max,
     )
 
     res = crowding_limited_depth(
