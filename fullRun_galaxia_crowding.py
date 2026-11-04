@@ -54,7 +54,7 @@ def run_galaxia_stream(
     magcolor_names: str = "Ks,J-Ks",
     seed: int = 12,
     f_sample: float = 1.0,
-    galaxia_exe: str = "/usr/local/bin/galaxia",
+    galaxia_exe: str = str(Path.home() / ".local/bin/galaxia"),
     extra_params: Optional[Dict[str, object]] = None,
     env: Optional[Dict[str, str]] = None,
 ) -> tuple[Path, str, int]:
@@ -329,7 +329,7 @@ def run_full_analysis(
 if __name__ == "__main__":
     # Example: North Galactic Pole (fast, low density)
     result = run_full_analysis(
-        workdir="/home/zbalog/galaxia_runs/pole_test",
+        workdir="/home/balog/galaxia_runs/pole_test",
         output_file_stem="pole_V20_area1",
         l_deg=0.0,
         b_deg=5.0,

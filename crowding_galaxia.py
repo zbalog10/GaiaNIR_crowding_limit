@@ -111,7 +111,7 @@ def crowding_limited_depth_from_ebf(
 
 # ---- Example usage (your case) ----
 if __name__ == "__main__":
-    ebf_file = "/home/zbalog/galaxia_test/galaxy1.ebf"
+    ebf_file = "/home/balog/galaxia_test/galaxy1.ebf"
     survey_area_deg2 = 1.0          # set to your 'surveyArea' value
     fwhm_arcsec = 0.20              # example: 0.2" (tune to your instrument)
     mag_key = "/ubv_v"

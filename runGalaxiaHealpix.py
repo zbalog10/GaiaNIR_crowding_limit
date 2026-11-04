@@ -49,7 +49,7 @@ def run_crowding_per_healpix(
     b_max: float | None = None,
     max_pixels: int | None = None,
     skip_existing: bool = True,
-    galaxia_exe: str = "/usr/local/bin/galaxia",
+    galaxia_exe: str = str(Path.home() / ".local/bin/galaxia"),
 ) -> pd.DataFrame:
     """
     Run Galaxia + crowding limit for each HEALPix pixel center.
@@ -159,7 +159,7 @@ def run_crowding_per_healpix(
 if __name__ == "__main__":
     # Good first test: a narrow Galactic plane strip to keep runtime manageable
     df = run_crowding_per_healpix(
-        outdir="/home/zbalog/galaxia_runs/healpix_plane_n16",
+        outdir="/home/balog/galaxia_runs/healpix_plane_n16",
         nside=8,
         nest=False,
         k_max=22.0,
@@ -174,6 +174,6 @@ if __name__ == "__main__":
         skip_existing=True,
     )
 
-    out_csv = "/home/zbalog/galaxia_runs/healpix_plane_n16/results.csv"
+    out_csv = "/home/balog/galaxia_runs/healpix_plane_n16/results.csv"
     df.to_csv(out_csv, index=False)
     print(f"\nWrote: {out_csv}")

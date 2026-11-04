@@ -41,7 +41,7 @@ def run_galaxia(
     magcolor_names="Ks,J-Ks",
     seed=12,
     f_sample=1.0,
-    galaxia_exe="/usr/local/bin/galaxia",
+    galaxia_exe=str(Path.home() / ".local/bin/galaxia"),
     extra_params=None,
     env=None,
 ):
@@ -140,7 +140,7 @@ def run_galaxia_old(
     magcolor_names: str = "K,J-K",
     seed: int = 12,
     f_sample: float = 1.0,
-    galaxia_exe: str = "/usr/local/bin/galaxia",
+    galaxia_exe: str = str(Path.home() / ".local/bin/galaxia"),
     extra_params: Optional[Dict[str, object]] = None,
     env: Optional[Dict[str, str]] = None,
 ) -> Path:
@@ -239,7 +239,7 @@ def run_galaxia_old(
 # ---- Minimal example ----
 if __name__ == "__main__":
     ebf = run_galaxia(
-        workdir="/home/zbalog/galaxia_runs/pole_test",
+        workdir="/home/balog/galaxia_runs/pole_test",
         output_file_stem="pole_K20_area2",
         l_deg=0.0,
         b_deg=90.0,

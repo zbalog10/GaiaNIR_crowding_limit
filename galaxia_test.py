@@ -1,7 +1,7 @@
 import numpy as np
 import ebf
 
-fn = "/home/zbalog/galaxia_test/galaxy1.ebf"     # <-- change
+fn = "/home/balog/galaxia_test/galaxy1.ebf"     # <-- change
 survey_area_deg2 = 1000.0     # <-- set to your surveyArea from params
 
 V = ebf.read(fn, "/ubv_v")  # apparent V magnitudes

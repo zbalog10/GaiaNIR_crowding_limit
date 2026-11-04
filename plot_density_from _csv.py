@@ -8,7 +8,7 @@ from pathlib import Path
 # -----------------------
 # USER SETTINGS
 # -----------------------
-CSV_FILE = "/home/zbalog/galaxia_runs/healpix_n128_plane_10x10/results_plane_10x10.csv"
+CSV_FILE = "/home/balog/galaxia_runs/healpix_n128_plane_10x10/results_plane_10x10.csv"
 NSIDE = 128
 
 # Column to plot:

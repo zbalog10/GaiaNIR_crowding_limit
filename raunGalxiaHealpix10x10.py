@@ -67,7 +67,7 @@ def run_crowding_for_ipix_list(
     p_blend: float = 0.10,
     beams_per_source: float = 30.0,
     skip_existing: bool = True,
-    galaxia_exe: str = "/usr/local/bin/galaxia",
+    galaxia_exe: str = str(Path.home() / ".local/bin/galaxia"),
 ):
     """
     For each HEALPix pixel index, run Galaxia at pixel center and compute crowding limit.
@@ -231,7 +231,7 @@ if __name__ == "__main__":
     # USER SETTINGS
     # -------------------------
     NSIDE = 128
-    OUTDIR = "/home/zbalog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026"
+    OUTDIR = "/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026"
 
     # Choose a 10x10 region in the Galactic plane:
     # Default: centered at l=30°, b=0°, spanning 10° in l and 5° in b.
