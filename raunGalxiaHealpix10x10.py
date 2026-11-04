@@ -231,7 +231,7 @@ if __name__ == "__main__":
     # USER SETTINGS
     # -------------------------
     NSIDE = 128
-    OUTDIR = "/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026"
+    OUTDIR = str(Path.home() / "Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026")
 
     # Choose a 10x10 region in the Galactic plane:
     # Default: centered at l=30°, b=0°, spanning 10° in l and 5° in b.

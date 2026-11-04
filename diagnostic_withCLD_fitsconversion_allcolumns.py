@@ -18,7 +18,7 @@ from astropy.table import Table
 # USER CONFIGURATION
 # =========================
 EBF_PATH = Path(
-    "/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks/"
+    Path.home() / "Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks/"
     "hp_097065/hp097065_n128_Ks22.ebf"
 )
 
@@ -26,7 +26,7 @@ MAG_KEY = "/dcmc_ks"
 DMAG = 0.1
 
 RESULTS_CSV = Path(
-    "/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/"
+    Path.home() / "Work/GaiaNIR/Galaxia/galaxia_runs/"
     "healpix_n128_plane_100x100_Ks/results_plane_100x100.csv"
 )
 

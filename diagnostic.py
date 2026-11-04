@@ -22,14 +22,14 @@ import pandas as pd
 
 # Path to Galaxia output EBF file
 EBF_PATH = Path(
-    "/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks/hp_097065/hp097065_n128_Ks22.ebf"
+    Path.home() / "Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks/hp_097065/hp097065_n128_Ks22.ebf"
 )
 
 # Magnitude key (choose one)
 MAG_KEY = "/dcmc_ks"   # DCMC Ks
 # MAG_KEY = "/ubv_v"   # UBV V
 
-RESULTS_CSV = Path("/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks/results_plane_10x10.csv")
+RESULTS_CSV = Path.home() / "Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks/results_plane_10x10.csv"
 IPIX = 97065  # <-- the pixel you are plotting (from hp_097065)
 
 

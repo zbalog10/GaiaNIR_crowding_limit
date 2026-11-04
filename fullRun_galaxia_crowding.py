@@ -329,7 +329,7 @@ def run_full_analysis(
 if __name__ == "__main__":
     # Example: North Galactic Pole (fast, low density)
     result = run_full_analysis(
-        workdir="/home/balog/galaxia_runs/pole_test",
+        workdir=str(Path.home() / "galaxia_runs/pole_test"),
         output_file_stem="pole_V20_area1",
         l_deg=0.0,
         b_deg=5.0,

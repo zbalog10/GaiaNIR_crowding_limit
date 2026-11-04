@@ -239,7 +239,7 @@ def run_galaxia_old(
 # ---- Minimal example ----
 if __name__ == "__main__":
     ebf = run_galaxia(
-        workdir="/home/balog/galaxia_runs/pole_test",
+        workdir=str(Path.home() / "galaxia_runs/pole_test"),
         output_file_stem="pole_K20_area2",
         l_deg=0.0,
         b_deg=90.0,

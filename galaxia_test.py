@@ -1,7 +1,8 @@
 import numpy as np
+from pathlib import Path
 import ebf
 
-fn = "/home/balog/galaxia_test/galaxy1.ebf"     # <-- change
+fn = str(Path.home() / "galaxia_test/galaxy1.ebf")     # <-- change
 survey_area_deg2 = 1000.0     # <-- set to your surveyArea from params
 
 V = ebf.read(fn, "/ubv_v")  # apparent V magnitudes

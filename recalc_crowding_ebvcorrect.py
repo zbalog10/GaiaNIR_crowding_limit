@@ -45,7 +45,7 @@ import ebf
 # =========================
 
 ROOT_DIR = Path(
-    "/home/balog/Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026"
+    Path.home() / "Work/GaiaNIR/Galaxia/galaxia_runs/healpix_n128_plane_100x100_Ks_22012026"
 )
 
 NSIDE = 128
