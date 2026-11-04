@@ -327,13 +327,15 @@ def run_full_analysis(
 # Main: run one test field
 # -----------------------------
 if __name__ == "__main__":
-    # Example: North Galactic Pole (fast, low density)
+    # Example: bulge field just above the Galactic Centre (l=0, b=+5; very high density).
+    # A small area keeps the test quick: crowding depends on surface density,
+    # so m_lim is close to the 1 deg^2 result, just noisier.
     result = run_full_analysis(
-        workdir=str(Path.home() / "galaxia_runs/pole_test"),
-        output_file_stem="pole_V20_area1",
+        workdir=str(Path.home() / "galaxia_runs/bulge_test"),
+        output_file_stem="l0_b5_Ks25_area0p01",
         l_deg=0.0,
         b_deg=5.0,
-        survey_area_deg2=1.0,
+        survey_area_deg2=0.01,
         k_max=25.0,
         fwhm_arcsec=0.20,   # set your effective resolution here
         k=1.0,
