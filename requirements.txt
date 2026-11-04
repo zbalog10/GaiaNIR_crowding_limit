@@ -1,0 +1,13 @@
+# Core: Galaxia output, crowding calculation, HEALPix maps, plots
+numpy
+pandas
+matplotlib
+healpy
+astropy
+ebfpy            # provides `import ebf` (reads Galaxia .ebf output)
+
+# Besancon Galaxy Model web-service clients (queryModel*.py, webClient.py, strcount_grid.py)
+requests
+python-dateutil
+python-dotenv
+astroquery
