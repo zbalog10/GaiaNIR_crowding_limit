@@ -247,7 +247,7 @@ if __name__ == "__main__":
 
     # Science settings
     K_MAX = 30.0
-    MAG_KEY = "/dcmc_ks"     # Galaxia EBF key
+    MAG_KEY = "/mag0"        # apparent Ks (no extinction); crowding_limited_depth adds A_Ks from exbv_schlegel
     FWHM_ARCSEC = 0.2
     K = 1.0
     MODE = "poisson"

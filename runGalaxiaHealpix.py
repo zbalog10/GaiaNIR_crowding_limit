@@ -38,7 +38,7 @@ def run_crowding_per_healpix(
     outdir: str,
     nside: int = 16,
     nest: bool = False,
-    mag_key: str = "/dcmc_ks",
+    mag_key: str = "/mag0",
     k_max: float = 22.0,
     fwhm_arcsec: float = 0.2,
     k: float = 1.0,
@@ -167,7 +167,7 @@ if __name__ == "__main__":
         k=1.0,
         mode="poisson",
         p_blend=0.10,
-        mag_key="/dcmc_ks",
+        mag_key="/mag0",          # apparent Ks; extinction added from exbv_schlegel
         b_min=-5.0,
         b_max=+5.0,
         # max_pixels=50,   # uncomment for a quick smoke test

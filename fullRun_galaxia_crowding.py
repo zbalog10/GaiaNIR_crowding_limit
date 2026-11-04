@@ -162,9 +162,47 @@ def run_galaxia_stream(
 # 2) Crowding-limited depth calculator
 # ----------------------------------------
 
+# Extinction coefficient A_Ks / E(B-V) (Galaxia documentation, UKIRT K).
+EXT_COEFF_KS = 0.367
+
+
+def load_apparent_mags(
+    ebf_file: Union[str, Path],
+    mag_key: str = "/mag0",
+    *,
+    ext_coeff: float | None = EXT_COEFF_KS,
+    ebv_key: str = "/exbv_schlegel",
+) -> np.ndarray:
+    """
+    Return extinction-corrected apparent magnitudes from a Galaxia EBF file.
+
+    Galaxia column conventions (verified against Galaxia 0.7.2 output):
+    - /dcmc_ks, /dcmc_j, ... (photometric-system columns) are ABSOLUTE magnitudes.
+    - /mag0, /mag1, /mag2 are APPARENT magnitudes WITHOUT extinction,
+      mag0 = M + 5*log10(100*rad), for the bands in magcolorNames
+      ("Ks,J-Ks" -> mag0 = Ks, mag1 = J, mag2 = Ks).
+    - Extinction is not applied by Galaxia; add A = ext_coeff * E(B-V) here.
+
+    Set ext_coeff=None to skip the extinction term. ext_coeff must match the
+    band in mag_key (the default 0.367 is for Ks).
+    """
+    ebf_file = str(ebf_file)
+    if not mag_key.startswith("/mag"):
+        print(
+            f"WARNING: {mag_key} is a photometric-system column, i.e. an ABSOLUTE "
+            "magnitude in Galaxia output; use /mag0 (apparent) for crowding limits."
+        )
+
+    mags = np.asarray(ebf.read(ebf_file, mag_key), dtype=float)
+    if ext_coeff is not None:
+        ebv = np.asarray(ebf.read(ebf_file, ebv_key), dtype=float)
+        mags = mags + ext_coeff * ebv
+    return mags
+
+
 def crowding_limited_depth(
     ebf_file: Union[str, Path],
-    mag_key: str,
+    mag_key: str = "/mag0",
     *,
     survey_area_deg2: float,
     fwhm_arcsec: float,
@@ -175,17 +213,20 @@ def crowding_limited_depth(
     beams_per_source: float = 30.0, # used if mode="beams"
     mag_min: float | None = None,
     mag_max: float | None = None,
+    ext_coeff: float | None = EXT_COEFF_KS,
+    ebv_key: str = "/exbv_schlegel",
 ) -> Dict[str, object]:
     """
     Compute crowding-limited depth using:
     - Poisson blending probability threshold, or
     - beams-per-source threshold.
 
-    Uses cumulative density rho(<m) derived from the EBF magnitudes.
+    Uses cumulative density rho(<m) derived from extinction-corrected apparent
+    magnitudes (see load_apparent_mags).
     """
     ebf_file = Path(ebf_file)
 
-    mags = np.asarray(ebf.read(str(ebf_file), mag_key))
+    mags = load_apparent_mags(ebf_file, mag_key, ext_coeff=ext_coeff, ebv_key=ebv_key)
     mags = mags[np.isfinite(mags)]
 
     if mags.size == 0:
@@ -249,6 +290,8 @@ def crowding_limited_depth(
         "A_arcsec2": A_arcsec2,
         "survey_area_deg2": survey_area_deg2,
         "mag_key": mag_key,
+        "ext_coeff": ext_coeff,
+        "ebv_key": ebv_key if ext_coeff is not None else None,
         # curves (for plotting / debugging)
         "m_centers": m_centers,
         "rho_cum_arcsec2": rho_cum,
@@ -275,7 +318,9 @@ def run_full_analysis(
     mode: str = "poisson",
     p_blend: float = 0.10,
     beams_per_source: float = 30.0,
-    mag_key: str = "/dcmc_ks",
+    mag_key: str = "/mag0",
+    ext_coeff: float | None = EXT_COEFF_KS,
+    ebv_key: str = "/exbv_schlegel",
 ) -> Dict[str, object]:
     ebf_path, stdout_text, rc = run_galaxia_stream(
         workdir=workdir,
@@ -296,6 +341,8 @@ def run_full_analysis(
         p_blend=p_blend,
         beams_per_source=beams_per_source,
         dmag=0.1,
+        ext_coeff=ext_coeff,
+        ebv_key=ebv_key,
     )
 
     # Print a compact summary
@@ -306,11 +353,11 @@ def run_full_analysis(
     print(f"Field (l,b) = ({l_deg:.2f}, {b_deg:.2f})  area={survey_area_deg2} deg^2")
     print(f"Total stars in file: {res['N_total']:,}")
     print(f"Mean surface density: {dens_deg2:,.1f} /deg^2 = {dens_arcsec2:.3e} /arcsec^2")
-    #print(f"Crowding-limited depth ({res['criterion']}):  {res['m_lim']:.2f}  using {mag_key}")
+    ext_desc = f"+ {ext_coeff}*{ebv_key.lstrip('/')}" if ext_coeff is not None else "(no extinction)"
     if res["m_lim"] is None:
         print(f"Crowding-limited depth ({res['criterion']}): not reached within simulated mags")
     else:
-        print(f"Crowding-limited depth ({res['criterion']}): {res['m_lim']:.2f} using {mag_key}")
+        print(f"Crowding-limited depth ({res['criterion']}): {res['m_lim']:.2f} using {mag_key} {ext_desc}")
 
     print(f"Assumed FWHM={fwhm_arcsec}\"  k={k}  => r={res['r_arcsec']:.3f}\"  A={res['A_arcsec2']:.4g} arcsec^2")
     print(f"Galaxia exit code: {rc} (EBF exists => accepted)\n")
@@ -341,7 +388,7 @@ if __name__ == "__main__":
         k=1.0,
         mode="poisson",
         p_blend=0.10,
-        mag_key="/dcmc_ks",
+        mag_key="/mag0",          # apparent Ks; extinction added from exbv_schlegel
     )
 
     # If you want the beams/source criterion instead:
