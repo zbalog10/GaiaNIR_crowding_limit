@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# LEGACY: superseded by diagnostic_pixel.py (this script plots absolute /dcmc_ks magnitudes); kept for reference only.
 """
 Two-panel magnitude diagnostics for Galaxia outputs:
   (left)  differential magnitude distribution dN/dm
