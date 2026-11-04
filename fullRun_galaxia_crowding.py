@@ -227,10 +227,47 @@ def crowding_limited_depth(
     ebf_file = Path(ebf_file)
 
     mags = load_apparent_mags(ebf_file, mag_key, ext_coeff=ext_coeff, ebv_key=ebv_key)
-    mags = mags[np.isfinite(mags)]
-
-    if mags.size == 0:
+    if not np.isfinite(mags).any():
         raise ValueError(f"No finite magnitudes found at {mag_key} in {ebf_file}")
+
+    res = crowding_limited_depth_from_mags(
+        mags,
+        survey_area_deg2=survey_area_deg2, fwhm_arcsec=fwhm_arcsec, k=k, dmag=dmag,
+        mode=mode, p_blend=p_blend, beams_per_source=beams_per_source,
+        mag_min=mag_min, mag_max=mag_max,
+    )
+    res.update({
+        "mag_key": mag_key,
+        "ext_coeff": ext_coeff,
+        "ebv_key": ebv_key if ext_coeff is not None else None,
+    })
+    return res
+
+
+def crowding_limited_depth_from_mags(
+    mags: np.ndarray,
+    *,
+    survey_area_deg2: float,
+    fwhm_arcsec: float,
+    k: float = 1.0,
+    dmag: float = 0.1,
+    mode: str = "poisson",          # "poisson" or "beams"
+    p_blend: float = 0.10,          # used if mode="poisson"
+    beams_per_source: float = 30.0, # used if mode="beams"
+    mag_min: float | None = None,
+    mag_max: float | None = None,
+) -> Dict[str, object]:
+    """
+    Model-independent core of the crowding calculation (Galaxia, genstars, ...).
+
+    mags must be apparent magnitudes (extinction included) of the stars in a field of
+    survey_area_deg2. For a subsampled catalogue (e.g. genstars fSIMU < 1) pass the
+    effective area fSIMU * area, so that N / area is the true surface density.
+    """
+    mags = np.asarray(mags, dtype=float)
+    mags = mags[np.isfinite(mags)]
+    if mags.size == 0:
+        raise ValueError("No finite magnitudes")
 
     if mag_min is None:
         mag_min = float(np.floor(np.min(mags)))
@@ -289,9 +326,6 @@ def crowding_limited_depth(
         "r_arcsec": r_arcsec,
         "A_arcsec2": A_arcsec2,
         "survey_area_deg2": survey_area_deg2,
-        "mag_key": mag_key,
-        "ext_coeff": ext_coeff,
-        "ebv_key": ebv_key if ext_coeff is not None else None,
         # curves (for plotting / debugging)
         "m_centers": m_centers,
         "rho_cum_arcsec2": rho_cum,
