@@ -100,6 +100,7 @@ def run_crowding_for_ipix_list(
                 l_deg=l_deg,
                 b_deg=b_deg,
                 survey_area_deg2=area_deg2,
+                k_min=k_min,
                 k_max=k_max,
                 galaxia_exe=galaxia_exe,
             )
