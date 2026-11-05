@@ -45,7 +45,7 @@ from fullRun_galaxia_crowding import EXT_COEFF_KS, crowding_limited_depth, load_
 # =========================
 # USER CONFIGURATION
 # =========================
-EBF_PATH = Path.home() / "galaxia_runs/bulge_test/l0_b5_Ks25_area0p01.ebf"
+EBF_PATH = Path.home() / "Work/GaiaNIR/galaxia_runs/bulge_test/l0_b5_Ks25_area0p01.ebf"
 
 # Optional results table with an m_lim per ipix (e.g. results_plane_100x100.csv
 # from raunGalxiaHealpix10x10.py). None -> only the recomputed m_lim is shown.

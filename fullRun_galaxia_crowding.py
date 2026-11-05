@@ -412,7 +412,7 @@ if __name__ == "__main__":
     # A small area keeps the test quick: crowding depends on surface density,
     # so m_lim is close to the 1 deg^2 result, just noisier.
     result = run_full_analysis(
-        workdir=str(Path.home() / "galaxia_runs/bulge_test"),
+        workdir=str(Path.home() / "Work/GaiaNIR/galaxia_runs/bulge_test"),
         output_file_stem="l0_b5_Ks25_area0p01",
         l_deg=0.0,
         b_deg=5.0,

@@ -159,7 +159,7 @@ def run_crowding_per_healpix(
 if __name__ == "__main__":
     # Good first test: a narrow Galactic plane strip to keep runtime manageable
     df = run_crowding_per_healpix(
-        outdir=str(Path.home() / "galaxia_runs/healpix_plane_n16"),
+        outdir=str(Path.home() / "Work/GaiaNIR/galaxia_runs/healpix_plane_n16"),
         nside=8,
         nest=False,
         k_max=22.0,
@@ -174,6 +174,6 @@ if __name__ == "__main__":
         skip_existing=True,
     )
 
-    out_csv = str(Path.home() / "galaxia_runs/healpix_plane_n16/results.csv")
+    out_csv = str(Path.home() / "Work/GaiaNIR/galaxia_runs/healpix_plane_n16/results.csv")
     df.to_csv(out_csv, index=False)
     print(f"\nWrote: {out_csv}")

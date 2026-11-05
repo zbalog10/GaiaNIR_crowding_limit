@@ -44,7 +44,7 @@ L_DEG, B_DEG = 30.0, 0.0        # pixel containing this direction (centre of the
 K_MIN, K_MAX = -100.0, 30.0     # as in raunGalxiaHealpix10x10.py
 FWHM_ARCSEC, K_SCALE, P_BLEND = 0.2, 1.0, 0.10
 MAG_KEY = "/mag0"
-OUTDIR = Path.home() / "galaxia_runs/e2e_test_n128"
+OUTDIR = Path.home() / "Work/GaiaNIR/galaxia_runs/e2e_test_n128"
 
 
 # =========================
